@@ -20,19 +20,13 @@ resource "aws_s3_bucket_public_access_block" "bucket_public_access_block" {
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_acl" "bucket_acl" {
-  bucket     = aws_s3_bucket.s3_bucket.id
-  acl        = "public-read"
-  depends_on = [aws_s3_bucket_ownership_controls.bucket_owner, aws_s3_bucket_public_access_block.bucket_public_access_block]
-}
-
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.s3_bucket.id
 
   policy = templatefile("${path.root}/${path.module}/s3_policy.json.tpl", {
     bucket_name = "${aws_s3_bucket.s3_bucket.bucket}"
   })
-  depends_on = [ aws_s3_bucket.s3_bucket, aws_s3_bucket_acl.bucket_acl]
+  depends_on = [ aws_s3_bucket.s3_bucket, aws_s3_bucket_ownership_controls.bucket_owner, aws_s3_bucket_public_access_block.bucket_public_access_block]
 }
 
 resource "aws_s3_bucket_website_configuration" "bucket_static_web_host" {
