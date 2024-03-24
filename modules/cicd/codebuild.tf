@@ -26,4 +26,6 @@ resource "aws_codebuild_project" "codebuild" {
   }
 
   tags = var.project_tags
+
+  depends_on = [ terraform_data.upload_file ]
 }

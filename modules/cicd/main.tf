@@ -2,7 +2,7 @@ resource "random_uuid" "s3-uuid" {
 }
 
 # Tạo một commit và tải lên tệp từ thư mục cục bộ
-resource "null_resource" "upload_file" {
+resource "terraform_data" "upload_file" {
   depends_on = [
     aws_codecommit_repository.codecommit,
   ]

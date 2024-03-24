@@ -26,7 +26,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   policy = templatefile("${path.root}/${path.module}/s3_policy.json.tpl", {
     bucket_name = "${aws_s3_bucket.s3_bucket.bucket}"
   })
-  depends_on = [ aws_s3_bucket.s3_bucket, aws_s3_bucket_ownership_controls.bucket_owner, aws_s3_bucket_public_access_block.bucket_public_access_block]
+  depends_on = [ aws_s3_bucket.s3_bucket, aws_s3_bucket_ownership_controls.bucket_owner]
 }
 
 resource "aws_s3_bucket_website_configuration" "bucket_static_web_host" {
